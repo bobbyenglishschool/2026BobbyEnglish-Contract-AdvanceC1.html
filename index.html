@@ -166,6 +166,16 @@
             background-color: rgba(254, 204, 7, 0.15);
         }
 
+        .privacy-statement {
+            background-color: #f0f4f8;
+            padding: 14px 18px;
+            border-left: 4px solid var(--uci-blue);
+            font-size: 13px;
+            margin-bottom: 20px;
+            border-radius: 6px;
+            line-height: 1.65;
+        }
+
         .legal-box {
             border: 1px solid var(--border-color);
             background-color: #fafbfc;
@@ -176,7 +186,7 @@
             line-height: 1.7;
             text-align: left;
             margin-bottom: 20px;
-            border-radius: 6px;
+            border-radius: 8px;
         }
 
         .legal-item {
@@ -208,9 +218,9 @@
             display: flex;
             align-items: flex-start;
             justify-content: space-between;
-            gap: 4%;
+            gap: 20px;
             width: 100%;
-            margin-top: 10px;
+            margin-top: 15px;
             margin-bottom: 20px;
         }
 
@@ -221,19 +231,20 @@
         }
 
         .signature-label {
-            font-size: 12.5px;
+            font-size: 13px;
             color: var(--uci-blue);
-            font-weight: bold;
-            margin-bottom: 6px;
+            font-weight: 700;
+            margin-bottom: 8px;
         }
 
         .signature-canvas-container {
             width: 100%;
-            height: 130px;
+            height: 140px;
             background-color: #fff;
             border: 1.5px dashed var(--uci-blue);
             position: relative;
             border-radius: 6px;
+            overflow: hidden;
         }
 
         canvas {
@@ -241,6 +252,7 @@
             height: 100%;
             cursor: crosshair;
             display: block;
+            touch-action: none;
         }
 
         .canvas-clear-btn {
@@ -254,26 +266,27 @@
             font-size: 11px;
             border-radius: 4px;
             cursor: pointer;
-            font-weight: bold;
+            font-weight: 700;
+            z-index: 10;
         }
 
         .agreement-banner {
             text-align: center;
             font-size: 14px;
-            font-weight: bold;
+            font-weight: 800;
             color: var(--soft-red);
             margin: 25px 0;
-            padding: 12px;
-            background-color: #fef2f2;
-            border: 1px solid #fecaca;
+            padding: 12px 16px;
+            background-color: rgba(231, 76, 60, 0.06);
+            border: 1px solid var(--soft-red);
             border-radius: 6px;
             line-height: 1.6;
         }
 
         .submit-btn-container, .print-btn-container {
             text-align: center;
-            margin-top: 20px;
-            padding-bottom: 10px;
+            margin-top: 25px;
+            padding-bottom: 15px;
         }
 
         .submit-btn {
@@ -304,28 +317,28 @@
             border: none;
             padding: 12px 35px;
             font-size: 14px;
-            font-weight: 800;
-            border-radius: 25px;
+            font-weight: 700;
+            border-radius: 20px;
             cursor: pointer;
             box-shadow: 0 3px 6px rgba(0,0,0,0.1);
             transition: all 0.2s;
         }
 
         .print-btn:hover {
-            background-color: #102a4d;
-            transform: translateY(-1px);
+            opacity: 0.9;
+            transform: scale(1.02);
         }
 
         @media print {
             @page { size: A4 portrait; margin: 10mm 15mm; }
-            body { background-color: #fff; padding: 0; margin: 0; }
+            body { background-color: #fff; padding: 0; margin: 0; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
             .page-container { max-width: 100%; width: 100%; box-shadow: none; border-radius: 0; }
-            .page { padding: 10mm 15mm !important; width: 210mm; }
+            .page { padding: 0 !important; }
             .legal-box { height: auto !important; overflow-y: visible !important; border: none; background-color: #fff; padding: 0; }
             .legal-item { page-break-inside: avoid; }
             .canvas-clear-btn, .submit-btn-container, .print-btn-container { display: none !important; }
             .signature-canvas-container { border: 1px solid var(--uci-blue); }
-            table, th, td { border: 1px solid #1b3d6d !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+            table, th, td { border: 1px solid #1b3d6d !important; }
             th { width: 25% !important; background-color: #f0f4f8 !important; }
             td { width: 25% !important; }
         }
@@ -334,11 +347,9 @@
             body { padding: 8px; }
             .page { padding: 20px 15px; }
             .page-container { width: 100%; overflow-x: visible; }
-            .select-input { font-size: 11px; padding: 4px 2px; }
-            .submit-btn { font-size: 15px; padding: 12px 20px; }
+            table { min-width: 650px; } 
             .dual-signature-row { flex-direction: column; gap: 15px; }
             .signature-block { width: 100%; }
-            table { min-width: 650px; }
         }
     </style>
 </head>
@@ -362,13 +373,14 @@
             <div class="contract-header">
                 <h1>私立巴比美語短期補習班 ｜ 短期補習服務報名表暨服務契約書</h1>
                 <h2>Advance C1 青少年進階美語班</h2>
-                <h2 style="font-size: 13.5px; font-weight: bold; margin-top: 5px; opacity: 0.95;">Bobby English School - Enrollment Form & Service Contract</h2>
+                <h2 style="font-size: 13.5px; font-weight: 700; margin-top: 5px; opacity: 0.95;">Bobby English School - Enrollment Form & Service Contract</h2>
                 <p style="font-size: 11px; color: var(--text-sub); margin: 10px 0 0 0;">(依據教育部短期補習班補習服務契約書範本與桃園市最新設立及管理法規制定-2026年9月最新核定版)</p>
             </div>
 
+            <!-- 🎯 契約審閱確認條款（精準帶入攜回當天日期起算） -->
             <div class="privacy-statement">
                 <strong>【重要權益：契約審閱權】 / Contract Review Right</strong><br>
-                本定型化契約書於中華民國 <span id="reviewYearDisplay" style="font-weight: bold; color: var(--uci-blue);"></span> 年 <span id="reviewMonthDisplay" style="font-weight: bold; color: var(--uci-blue);"></span> 月 <span id="reviewDayDisplay" style="font-weight: bold; color: var(--uci-blue);"></span> 日由學員及監護人攜回審閱（契約審閱期間至少為五日）。甲方簽章確認已充分審閱並同意條款。<br>
+                本定型化契約書於中華民國 <span id="reviewYearDisplay" style="font-weight: bold; color: #0284c7;"></span> 年 <span id="reviewMonthDisplay" style="font-weight: bold; color: #0284c7;"></span> 月 <span id="reviewDayDisplay" style="font-weight: bold; color: #0284c7;"></span> 日由學員及監護人攜回審閱（契約審閱期間至少為五日）。甲方簽章確認已充分審閱並同意條款。<br>
                 <span style="color: var(--text-sub); font-style: italic;">This standard contract was taken home by the student/parent for review on Minguo <span id="reviewYearDisplayEn"></span>/<span id="reviewMonthDisplayEn"></span>/<span id="reviewDayDisplayEn"></span> (The contract review period shall be at least five days). Signature below confirms full review and acknowledgment.</span>
             </div>
 
@@ -378,7 +390,7 @@
                     <tbody>
                         <tr>
                             <th><span class="zh-title">選讀核定班別</span><span class="en-title">Enrolled Course</span></th>
-                            <td style="font-weight: bold; color: var(--uci-blue); font-size: 13.5px;">Advance C1 青少年進階美語班</td>
+                            <td style="font-weight: 700; color: var(--uci-blue); font-size: 13.5px;">Advance C1 青少年進階美語班</td>
                             <th><span class="zh-title">學員報名類別</span><span class="en-title">Student Registration Type</span></th>
                             <td>
                                 <select id="studentTypeSelector" class="select-input" onchange="calculateContractBilling()">
@@ -400,15 +412,15 @@
                         </tr>
                         <tr>
                             <th><span class="zh-title">(1) 學費</span><span class="en-title">Tuition Fee</span></th>
-                            <td id="td_tuition" style="font-weight: bold; color: var(--uci-blue);">NT$ 14,450 元</td>
+                            <td id="td_tuition" style="font-weight: 700; color: var(--uci-blue);">NT$ 14,450 元</td>
                             <th><span class="zh-title">(2) 講義教材費</span><span class="en-title">Materials Fee</span></th>
-                            <td id="td_materials" style="font-weight: bold; color: var(--uci-blue);">NT$ 1,840 元</td>
+                            <td id="td_materials" style="font-weight: 700; color: var(--uci-blue);">NT$ 1,840 元</td>
                         </tr>
                         <tr>
                             <th><span class="zh-title">(3) 當期學雜費</span><span class="en-title">School Fees</span></th>
-                            <td style="font-weight: bold; color: var(--uci-blue);">NT$ 1,020 元</td>
+                            <td style="font-weight: 700; color: var(--uci-blue);">NT$ 1,020 元</td>
                             <th><span class="zh-title">核定繳費總金額(1)+(2)+(3)</span><span class="en-title">Grand Total (1)+(2)+(3)</span></th>
-                            <td id="td_total" style="font-weight: bold; color: #c00; font-size: 14px;">NT$ 17,140 元</td>
+                            <td id="td_total" style="font-weight: 800; color: var(--soft-red); font-size: 14px;">NT$ 17,140 元</td>
                         </tr>
                     </tbody>
                 </table>
@@ -446,7 +458,7 @@
                 </div>
                 <div class="legal-item">
                     <strong>第五條：收費項目、金額與禁止不當收費 / Article 5: Fee Items, Grand Total, and Receipt Requirements：</strong><br>
-                    1. 本期核定收費費用包含基本學費、教材講義費及當期學雜費，當期實際應繳總金額以本合約第一項動態計算扣除優惠減免後之實際金額為準（目前核定預設原價總額為新台幣 <span id="legal_total_zh" style="font-weight:bold; color:#c00;">17,140</span> 元）。<br>
+                    1. 本期核定收費費用包含基本學費、教材講義費及當期學雜費，當期實際應繳總金額以本合約第一項動態計算扣除優惠減免後之實際金額為準（目前核定預設原價總額為新台幣 <span id="legal_total_zh" style="font-weight:bold; color:var(--soft-red);">17,140</span> 元）。<br>
                     2. 未明列於契約內之項目，乙方不得收取。所有收取費用乙方應依法開立正式核定收據憑證交予甲方。<br>
                     <span class="legal-en">1. The tuition and fees consist of Base Tuition, Textbooks/Materials, and Fees, and the total payment shall be based on the actual Grand Total dynamically computed under Section 1 after discount deductions.<br>2. Party B shall not collect any fee items that are not explicitly specified herein under any pretext. Official receipts must be issued for all fees collected.</span>
                 </div>
@@ -482,7 +494,7 @@
                 </div>
                 <div class="legal-item">
                     <strong>第十條：違規行為處置、秩序維護與契約終止 / Article 10: Student Conduct, Classroom Order, and Termination：</strong><br>
-                    學員於修業期間應共同維護課堂秩序與安全。若有嚴重干擾他人學習、惡意破壞公共設施、侵害違法行為且屢勸不聽者，為維護全班學員安全防線，乙方得單方面終止本契約，並依第六條退費條款辦理剩餘款項退費手續。<br>
+                    1. 學員於修業期間應共同維護課堂秩序與安全。若有嚴重干擾他人學習、惡意破壞公共設施、侵害違法行為且屢勸不聽者，為維護全班學員安全防線，乙方得單方面終止本契約，並依第六條退費條款辦理剩餘款項退費手續。<br>
                     <span class="legal-en">Students must strictly maintain classroom order and safety. For severe disruptions endangering others or malicious vandalism where repeated counseling fails, Party B reserves the right to unilaterally terminate this contract, issuing refunds according to Article 6.</span>
                 </div>
                 <div class="legal-item">
@@ -495,7 +507,7 @@
 
             <div class="agreement-banner">
                 本人已詳細閱讀、理解並完全同意上述所有巴比美語短期補習服務條款。雙方於下方完成親筆電子簽章，即代表完全承認並代為履行本契約之所有法律權利與義務。
-                <span style="font-size: 11px; font-weight: normal; display: block; margin-top: 3px; font-style: italic;">I have read, understood, and fully agreed to all terms. Electronic signatures below imply full execution of all rights under this contract.</span>
+                <span style="font-size: 11.5px; font-weight: 400; display: block; margin-top: 3px; font-style: italic;">I have read, understood, and fully agreed to all terms. Electronic signatures below imply full execution of all rights under this contract.</span>
             </div>
 
             <div class="dual-signature-row">
@@ -547,10 +559,11 @@ function resizeAllCanvases() {
     if(!hasSignedStaff) {
         staffCanvas.width = staffCanvas.parentElement.clientWidth;
         staffCanvas.height = staffCanvas.parentElement.clientHeight;
-        staffCtx.strokeStyle = "#1b3d6d"; staffCtx.lineWidth = 3; staffCtx.lineCap = "round";
+        staffCtx.strokeStyle = "#0284c7"; staffCtx.lineWidth = 3; staffCtx.lineCap = "round";
     }
 }
 
+// 家長簽名板事件監聽
 parentCanvas.addEventListener('mousedown', function(e) { isDrawingParent = true; hasSignedParent = true; draw(parentCtx, e.offsetX, e.offsetY); });
 parentCanvas.addEventListener('mousemove', function(e) { if(isDrawingParent) draw(parentCtx, e.offsetX, e.offsetY); });
 window.addEventListener('mouseup', function() { isDrawingParent = false; parentCtx.beginPath(); });
@@ -567,6 +580,7 @@ parentCanvas.addEventListener('touchmove', function(e) {
 }, {passive: true});
 parentCanvas.addEventListener('touchend', function() { isDrawingParent = false; parentCtx.beginPath(); });
 
+// 行政人員簽名板事件監聽
 staffCanvas.addEventListener('mousedown', function(e) { isDrawingStaff = true; hasSignedStaff = true; draw(staffCtx, e.offsetX, e.offsetY); });
 staffCanvas.addEventListener('mousemove', function(e) { if(isDrawingStaff) draw(staffCtx, e.offsetX, e.offsetY); });
 window.addEventListener('mouseup', function() { isDrawingStaff = false; staffCtx.beginPath(); });
@@ -604,7 +618,11 @@ function calculateContractBilling() {
     document.getElementById('td_tuition').innerText = "NT$ " + finalTuition.toLocaleString() + " 元";
     document.getElementById('td_materials').innerText = "NT$ " + materialsFee.toLocaleString() + " 元";
     document.getElementById('td_total').innerText = "NT$ " + grandTotal.toLocaleString() + " 元";
-    document.getElementById('legal_total_zh').innerText = grandTotal.toLocaleString();
+    
+    // 🎯 核心連動：讓第五條條款中的核定總金額自動寫入折扣後的真實總數！
+    if(document.getElementById('legal_total_zh')) {
+        document.getElementById('legal_total_zh').innerText = grandTotal.toLocaleString();
+    }
 
     document.getElementById('hidden_student_type').value = (studentType === 'new') ? "新進 C1 生" : "B2 升 C1 舊生";
     document.getElementById('hidden_tuition').value = finalTuition + " 元";
@@ -647,7 +665,7 @@ function prepareSubmit(event) {
     var googleAppsScriptUrl = "https://script.google.com/macros/s/AKfycbxt07hF-qkXePULEBjuCpzdWnaeNWsTlQV7dRhch_iBwtVePOIJzldTAsR0LothoQ1l/exec";
     var form = document.getElementById('contractForm');
 
-    // 🎯 雙連線發射：先傳送至 Google Sheets 自動存檔，再執行 FormSubmit 發信
+    // 🎯 雙連線發射：使用 mode: 'no-cors' 避開瀏覽器跨域安全性阻斷
     fetch(googleAppsScriptUrl, {
         method: 'POST',
         mode: 'no-cors',
@@ -665,6 +683,7 @@ window.onload = function() {
     resizeAllCanvases();
     window.addEventListener('resize', resizeAllCanvases);
     
+    // 🎯 貫徹最高指揮官 Joy 指令：審閱期日期即為家長收到當天日期，不為減天數變更！
     var today = new Date();
     var minguoYear = today.getFullYear() - 1911;
     var currentMonth = today.getMonth() + 1;
