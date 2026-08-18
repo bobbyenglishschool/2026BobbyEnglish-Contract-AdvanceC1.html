@@ -90,7 +90,6 @@
             margin-bottom: 15px;
         }
 
-        /* 🔒 Aegis 核心 UI 規範 1：所有表格與內格線 100% 飽滿巴比深藍色實體化 */
         table {
             width: 100%;
             border-collapse: collapse !important;
@@ -136,7 +135,6 @@
             background-color: #fff;
         }
 
-        /* 🎯 Aegis 核心 UI 規範 5：選讀班別拆解兩行、去「班」字、100% 幾何精準居中 */
         .static-course-cell {
             font-weight: bold;
             color: var(--uci-blue);
@@ -377,6 +375,7 @@
     <form id="contractForm" action="https://formsubmit.co/joy@bobbyenglishschool.com" method="POST" onsubmit="prepareSubmit(event)">
         <input type="hidden" name="_captcha" value="false">
         <input type="hidden" id="formSubject" name="_subject" value="【法律合約書回傳】Advance C1 青少年進階美語">
+        <input type="hidden" name="course_name" value="Advance C1">
         
         <input type="hidden" id="signature_parent_base64" name="[家長親筆手寫電子簽章區]">
         <input type="hidden" id="signature_staff_base64" name="[補習班行政核定電子簽章區]">
@@ -408,7 +407,6 @@
                     <tbody>
                         <tr>
                             <th><span class="zh-title">選讀核定班別</span><span class="en-title">Enrolled Course</span></th>
-                            <!-- 🎯 Aegis 核心 UI 規範 5：班別拆分為兩行，上下左右 100% 幾何精準置中，並刪除贅字「班」 -->
                             <td>
                                 <div class="static-course-cell">
                                     <span style="font-size: 14px; font-weight: 800;">Advance C1</span>
@@ -417,9 +415,8 @@
                             </td>
                             <th><span class="zh-title">學員報名類別</span><span class="en-title">Student Registration Type</span></th>
                             <td>
-                                <!-- 🎯 Aegis 修正：標籤同步為「新生（需購買教材）」與「舊生（無需購買教材）」 -->
                                 <select id="studentTypeSelector" class="select-input" onchange="calculateContractBilling()">
-                                    <option value="new">新生（需購買教材） (藍本Azar全套+筆記本 $1,840+$200=$2,040)</option>
+                                    <option value="new">新生（需購買教材） (藍本Azar全套+筆記本 $2,040)</option>
                                     <option value="promoted">舊生（無需購買教材） (專屬寫作筆記本 $500)</option>
                                 </select>
                             </td>
@@ -431,7 +428,6 @@
                                     <option value="1">標準常規原價方案 / Standard Plan</option>
                                     <option value="0.9">9折優惠方案 / 10% Off Promotion</option>
                                     <option value="0.85">85折優惠方案 / 15% Off Promotion</option>
-                                    <!-- 🎯 Aegis 核心 UI 規範 6：刪除「老朋友」字樣，統一為「✨ 8折優惠方案」 -->
                                     <option value="0.8">✨ 8折優惠方案 / 20% Off Promotion</option>
                                 </select>
                             </td>
@@ -440,7 +436,7 @@
                             <th><span class="zh-title">(1) 學費</span><span class="en-title">Tuition Fee</span></th>
                             <td id="td_tuition" style="font-weight: 700; color: var(--uci-blue);">NT$ 14,450 元</td>
                             <th><span class="zh-title">(2) 講義教材費</span><span class="en-title">Materials Fee</span></th>
-                            <td id="td_materials" style="font-weight: 700; color: var(--uci-blue);">NT$ 1,840 元</td>
+                            <td id="td_materials" style="font-weight: 700; color: var(--uci-blue);">NT$ 2,040 元</td>
                         </tr>
                         <tr>
                             <th><span class="zh-title">(3) 當期學雜費</span><span class="en-title">School Fees</span></th>
@@ -575,7 +571,6 @@ var isDrawingStaff = false;
 var hasSignedParent = false;
 var hasSignedStaff = false;
 
-// 🎯 高解析度 (Retina) Canvas 校準與畫素維護
 function setupCanvas(canvas, ctx) {
     var rect = canvas.parentElement.getBoundingClientRect();
     var ratio = window.devicePixelRatio || 1;
@@ -605,7 +600,6 @@ function getPos(canvas, e) {
     };
 }
 
-// 簽名事件監聽綁定
 parentCanvas.addEventListener('mousedown', function(e) { isDrawingParent = true; hasSignedParent = true; var p = getPos(parentCanvas, e); parentCtx.beginPath(); parentCtx.moveTo(p.x, p.y); });
 parentCanvas.addEventListener('mousemove', function(e) { if(isDrawingParent) { var p = getPos(parentCanvas, e); parentCtx.lineTo(p.x, p.y); parentCtx.stroke(); } });
 window.addEventListener('mouseup', function() { isDrawingParent = false; });
@@ -632,7 +626,6 @@ function clearSig(target) {
     }
 }
 
-// 🎯 核心判空防護：使用像素緩衝區檢測（100% 精準判斷是否空白）
 function isCanvasBlank(canvas) {
     var context = canvas.getContext('2d');
     var pixelBuffer = new Uint32Array(
@@ -641,43 +634,31 @@ function isCanvasBlank(canvas) {
     return !pixelBuffer.some(function(color) { return color !== 0; });
 }
 
-// =========================================================================
-// 🎯 Aegis 核心連動算式：與招生 DM 金額 100% 同步
-// 【應繳總金額 = Math.round((基本學費 + 原價教材費 + 當期學雜費) * 折扣率)】
-// 新生原價：14450 + 1840 + 1020 = $17,310 元
-// 舊生原價：14450 + 500 + 1020 = $15,970 元
-// =========================================================================
 function calculateContractBilling() {
     var studentType = document.getElementById('studentTypeSelector').value;
     var discountRatio = parseFloat(document.getElementById('discountSelector').value);
     
-    var baseTuition = 14450;  // Advance C1 專屬基本學費 (17堂)
-    var rawMisc = 1020;        // Advance C1 專屬當期學雜費 (17堂)
-    var rawMaterials = (studentType === 'new') ? 1840 : 500; // 新生全套+筆記本 $1,840 vs 舊生筆記本 $500
+    var baseTuition = 14450;  
+    var rawMisc = 1020;        
+    var rawMaterials = (studentType === 'new') ? 2040 : 500; 
     
-    // 全項目未折總計
     var subTotal = baseTuition + rawMaterials + rawMisc;
-    
-    // 🎯 全項目一律連動乘上折扣率並四捨五入整數！
     var grandTotal = Math.round(subTotal * discountRatio);
 
     document.getElementById('td_tuition').innerText = "NT$ " + baseTuition.toLocaleString() + " 元";
     document.getElementById('td_materials').innerText = "NT$ " + rawMaterials.toLocaleString() + " 元";
     document.getElementById('td_total').innerText = "NT$ " + grandTotal.toLocaleString() + " 元";
     
-    // 🎯 核心連動：讓第五條條款中的核定總金額自動寫入折扣後的真實總數！
     if(document.getElementById('legal_total_zh')) {
         document.getElementById('legal_total_zh').innerText = grandTotal.toLocaleString();
     }
 
-    // 🎯 核心修正：同步「去身分標籤」備份數據至 Form 隱藏欄位
     document.getElementById('hidden_student_type').value = (studentType === 'new') ? "新生（需購買教材）" : "舊生（無需購買教材）";
     document.getElementById('hidden_tuition').value = baseTuition + " 元";
     document.getElementById('hidden_materials').value = rawMaterials + " 元";
     document.getElementById('hidden_misc').value = rawMisc + " 元";
     document.getElementById('hidden_total').value = grandTotal + " 元";
 
-    // 🎯 核心 UI 規範 6：去身分標籤，動態修改郵件主旨標籤
     var typeText = (studentType === 'new') ? "新生" : "舊生";
     if(discountRatio < 1) {
         var pctText = (discountRatio * 10).toFixed(1).replace('.0', '');
@@ -690,7 +671,6 @@ function calculateContractBilling() {
 function prepareSubmit(event) {
     event.preventDefault();
     
-    // 🎯 採用像素緩衝區精準防呆檢測
     if (!hasSignedParent || isCanvasBlank(parentCanvas)) {
         alert("⚠️ 智慧防呆提示：負責人 Joy 主任溫馨提醒您，請家長務必先在左側藍色方框內完成「家長親筆電子簽章」，才能送出契約書喔！");
         return false;
@@ -708,7 +688,8 @@ function prepareSubmit(event) {
     submitBtn.innerText = "正傳送至 Joy 負責人法律簽核夾...";
     submitBtn.disabled = true;
 
-    var googleAppsScriptUrl = "https://script.google.com/macros/s/AKfycbxt07hF-qkXePULEBjuCpzdWnaeNWsTlQV7dRhch_iBwtVePOIJzldTAsR0LothoQ1l/exec";
+    // ⚡ Aegis 精準植入：Joy 主任專屬 GAS 網頁應用程式 URL
+    var googleAppsScriptUrl = "https://script.google.com/macros/s/AKfycbzEuQxLVm_1BgBZNAAO2FUdZ6y385oTV02aEgnCIkN6756PCGZCr3h1Iypqpe0LQxPXsw/exec";
     var form = document.getElementById('contractForm');
 
     var isSubmitted = false;
@@ -719,7 +700,6 @@ function prepareSubmit(event) {
         }
     };
 
-    // 🎯 設置 2 秒超時防線，確保系統必定順暢送出
     setTimeout(doFinalSubmit, 2000);
 
     fetch(googleAppsScriptUrl, {
@@ -738,7 +718,6 @@ function prepareSubmit(event) {
 window.onload = function() {
     initCanvases();
     
-    // 🎯 貫徹最高指揮官 Joy 指令：審閱期日期即為家長收到當天日期，不減天數！
     var today = new Date();
     var minguoYear = today.getFullYear() - 1911;
     var currentMonth = today.getMonth() + 1;
